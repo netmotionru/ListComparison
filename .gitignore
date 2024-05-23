@@ -1,3 +1,5 @@
+*.pro.user
+
 # Build files
 /build-ListComparison-Desktop-Debug
 
