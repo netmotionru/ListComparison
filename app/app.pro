@@ -12,8 +12,8 @@ HEADERS += \
 	core/baselogic.h
 
 SOURCES += \
-        core/baselogic.cpp \
-        main.cpp
+	core/baselogic.cpp \
+	main.cpp
 
 INCLUDEPATH += \
 	$$PWD/../lib/ListComparison \

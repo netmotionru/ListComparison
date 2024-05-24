@@ -9,7 +9,7 @@ class Rest : public QObject
 	Q_OBJECT
 
 	QNetworkAccessManager manager;
-	QEventLoop loop;
+	QEventLoop            loop;
 
 public:
 	explicit Rest(QObject *parent = nullptr);
@@ -17,8 +17,6 @@ public:
 	QNetworkReply* requestPostWait(const QNetworkRequest& inputRequest);
 	QNetworkReply* requestPutWait(const QNetworkRequest& inputRequest);
 	QNetworkReply* requestDeleteWait(const QNetworkRequest& inputRequest);
-
-signals:
 
 };
 

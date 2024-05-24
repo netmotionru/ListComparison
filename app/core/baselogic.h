@@ -9,7 +9,7 @@ class BaseLogic : public QObject
 	Q_OBJECT
 
 	QCoreApplication* appPtr     = nullptr;
-	QString           appName    = "";
+	QString           appName    = "ListComparison";
 	QString           appVersion = VERSION;
 
 public:
@@ -19,8 +19,6 @@ public:
 	int addingCommandLineOption(QCommandLineParser& parser);
 	int checkingTheCommandAndRunningIt(QCommandLineParser& parser);
 	int logic();
-
-signals:
 
 };
 
