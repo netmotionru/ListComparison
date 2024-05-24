@@ -1,4 +1,5 @@
 QT -= gui
+QT += websockets
 
 CONFIG += c++17 console
 CONFIG -= app_bundle
@@ -14,16 +15,16 @@ SOURCES += \
         core/baselogic.cpp \
         main.cpp
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
-unix:!macx: LIBS += -L$$OUT_PWD/../lib/ListComparison/ -lListComparison
-
 INCLUDEPATH += \
 	$$PWD/../lib/ListComparison \
 	$$PWD/../include
 
 DEPENDPATH += \
 	$$PWD/../lib/ListComparison
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+
+unix:!macx: LIBS += -L$$OUT_PWD/../lib/ListComparison/ -lListComparison

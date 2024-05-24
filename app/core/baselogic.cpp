@@ -41,8 +41,11 @@ int BaseLogic::checkingTheCommandAndRunningIt(QCommandLineParser& parser)
 {
 	ListComparison libObject;
 
-	if        (parser.isSet("one")){ libObject.funO;
-	} else if (parser.isSet("two")){ libObject.funT;
+	if (parser.isSet("one")){
+		QTextStream stream(stdout); // Для разнообразия, вместо qInfo.
+		QStringList result = libObject.getBranchList();
+		stream << "Branch: " << result.size() << " [" << result.join(",") << "]" << Qt::endl;
+	} else if (parser.isSet("two")){
 	} else {
 		// Additional processing is probably never called, since QCommandLineParser has an error handler.
 		qDebug() << "There is no logic for the specified parameter";
@@ -61,6 +64,8 @@ int BaseLogic::logic()
 	QCommandLineParser parser;
 	settingsCommandLineOption(parser);
 	addingCommandLineOption(parser);
-	parser.process(app);
+	parser.process(*appPtr);
 	checkingTheCommandAndRunningIt(parser);
+
+	return 0;
 }

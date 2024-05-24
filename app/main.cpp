@@ -5,8 +5,9 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-	BaseLogic start;
+	BaseLogic start(&a);
 	start.logic();
 
-	return a.exec();
+	a.exit();
+	return 0;
 }
