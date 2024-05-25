@@ -11,6 +11,7 @@ class BaseLogic : public QObject
 	QCoreApplication* appPtr     = nullptr;
 	QString           appName    = "ListComparison";
 	QString           appVersion = VERSION;
+	QString           jsonFileName   = "outputJson.txt"; // For option "json"
 
 public:
 	explicit BaseLogic(QObject *parent = nullptr, QCoreApplication* app = nullptr);

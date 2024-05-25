@@ -13,6 +13,8 @@
 #include <QVariantList>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QTextStream>
+#include <QFile>
 // OTHER
 #include <QCommandLineParser>
 

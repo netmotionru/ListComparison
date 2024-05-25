@@ -45,12 +45,19 @@ int BaseLogic::addingCommandLineOption(QCommandLineParser& parser)
 								  "Example: -d <FIRST_BRANCH> -d <SECOND_BRANCH>",
 								  "BRANCH");
 
+	// Add-on option for the difference option. Forms output as JSON.
+	// Example: >./app -j -d <FIRST_BRANCH> -d <SECOND_BRANCH>
+	QCommandLineOption showDifferencePackagesJson(QStringList() << "j" << "json",
+								  "Add-on option for the difference option. Forms output as JSON.\n"
+								  "Example: -j -d <FIRST_BRANCH> -d <SECOND_BRANCH>");
+
 	// Additional <BRANCH> argument for output in the help information
 	parser.addPositionalArgument("<BRANCH>", "Branch name");
 
 	parser.addOption(showAllBranch);
 	parser.addOption(getBranchAndShow);
 	parser.addOption(showDifferencePackages);
+	parser.addOption(showDifferencePackagesJson);
 
 	return 0;
 }
@@ -69,7 +76,7 @@ int BaseLogic::checkingTheCommandAndRunningIt(QCommandLineParser& parser)
 	} else if (parser.isSet("get")){
 		QStringList branchList = parser.values("get");
 		if (branchList.size() != 1){
-			qInfo() << "The number of branches is incorrectly, there should be one.";
+			stream << "The number of branches is incorrectly, there should be one." << Qt::endl;
 			parser.showHelp(1);
 		} else {
 			QHash<QString, QStringList> hashArch = libObject.getBranchInfo(branchList.first());
@@ -85,21 +92,51 @@ int BaseLogic::checkingTheCommandAndRunningIt(QCommandLineParser& parser)
 	} else if (parser.isSet("difference")){
 		QStringList branchList = parser.values("difference");
 		if (branchList.size() != 2){
-			qInfo() << "The number of branches is incorrect, there should be two.";
+			stream << "The number of branches is incorrect, there should be two." << Qt::endl;
 			parser.showHelp(1);
 		} else {
 			QHash<QString, QStringList> result = libObject.getDifferenceBranch(branchList);
 			if (result.isEmpty()) parser.showHelp(1);
 
-			for (auto i = result.cbegin(), end = result.cend(); i != end; ++i){
-				stream << "Arch: [" << i.key() << "] packages: " << i.value().size() << Qt::endl;
+			// Если выбрана дополнительная опция --json
+			if (parser.isSet("json")){
+				QJsonObject architecturesObj;
+				QFile fileObj(jsonFileName);
+
+				if (!fileObj.open(QFile::WriteOnly | QFile::Truncate)){
+					stream << "Error creating or opening " << jsonFileName << " file." << Qt::endl;
+				}
+
+				QTextStream streamToFile(&fileObj);
+
+				for (auto i = result.cbegin(), end = result.cend(); i != end; ++i){
+					QJsonArray packagesArray;
+					for (auto package : i.value()){
+						packagesArray.append(package);
+					}
+					architecturesObj[i.key()] = packagesArray;
+				}
+				QJsonDocument architecturesDoc(architecturesObj);
+				QByteArray outputJsonByteData = architecturesDoc.toJson(QJsonDocument::Compact);
+				streamToFile << outputJsonByteData;
+				stream << outputJsonByteData << Qt::endl;
+				stream << "The result is saved to the " << jsonFileName << " file" << Qt::endl;
+
+			}else{
+				for (auto i = result.cbegin(), end = result.cend(); i != end; ++i){
+					stream << "Arch: [" << i.key() << "] packages: " << i.value().size() << Qt::endl;
+				}
 			}
 		}
 
+	} else if (parser.isSet("json")){
+		stream << "This option must be used in conjunction with the difference option." << Qt::endl;
+		parser.showHelp(1);
+
 	} else {
 		// Additional processing is probably never called, since QCommandLineParser has an error handler.
-		qDebug() << "There is no logic for the specified parameter";
-		return 1;
+		stream << "There is no logic for the specified parameter." << Qt::endl;
+		parser.showHelp(1);
 	}
 
 	return 0;

@@ -105,6 +105,7 @@ QHash<QString, QStringList> ListComparison::getDifferenceBranch(QStringList bran
 	QByteArray responceSecondBranch = getBranchAndCheck(branchList.last());
 	if (responceSecondBranch.isEmpty()) return QHash<QString, QStringList>();
 
+	qInfo() << "Process the received lists of binary packets";
 	QHash<QString, QStringList> firstHashArch;
 	creatingHashArch(responceFirstBranch, firstHashArch);
 	QHash<QString, QStringList> secondHashArch;
