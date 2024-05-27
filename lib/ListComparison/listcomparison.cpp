@@ -7,7 +7,6 @@ ListComparison::ListComparison()
 
 QByteArray ListComparison::getBranchAndCheck(QString branch)
 {
-
 	QNetworkRequest request;
 	request.setUrl(QUrl(QString("%1%2/%3").arg(URL_API, URL_BRANCH_BINARY_PACKAGES, branch)));
 

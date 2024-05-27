@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# ListComparison installation script.
+# For more information, please visit https://github.com/netmotionru/ListComparison
+# VERSION 1.0.1 NETMOTION, GNU General Public License v3.0 (GPL-3.0)
+
+text_yellow="\e[0;33m"
+text_green="\e[92m"
+text_dafault="\e[0m"
+
+echo -e "\n${text_green}- ListComparison installation script. Requires root privileges to install. ${text_dafault}"
+sudo apt-get update
+echo -e "\n${text_yellow}- Loading qt6-base-devel qt6-websockets-devel packages ${text_dafault}"
+sudo apt-get install qt6-base-devel qt6-websockets-devel
+echo -e "\n${text_yellow}- Creating a build folder build ${text_dafault}"
+mkdir build
+cd build
+echo -e "\n${text_yellow}- Create a Makefile and build the project ${text_dafault}"
+export PATH=$PATH:/usr/share/qt6/bin
+qmake ../ListComparison.pro
+make
+echo -e "\n${text_yellow}- Install the application ${text_dafault}"
+sudo make install
+echo -e "\n${text_yellow}- Updating the shared library cache ${text_dafault}"
+sudo ldconfig
+echo -e "\n${text_green}- All done, you can now go to the build/app folder and run the ./app application. For more information, call ./app --help ${text_dafault}"
