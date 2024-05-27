@@ -13,61 +13,73 @@ CLI utility for comparing altlinux binary package lists. This is a C++17 applica
 
 ### Building from Source
 1. Clone the repository:
-   ```bash git clone https://github.com/netmotionru/ListComparison.git
-   cd ListComparison
-   ```
+```
+bash git clone https://github.com/netmotionru/ListComparison.git
+cd ListComparison
+```
 
 2. You can use the **app.install** script to build and install automatically. If you want to do everything manually, skip this step and go to step 3.:
-   ```bash app.install
-   ```
+```
+bash app.install
+```
 
 
 3. **Next steps if you skipped step 2!** Loading qt6-base-devel qt6-websockets-devel packages:
-   ```sudo apt-get update
-   sudo apt-get install qt6-base-devel qt6-websockets-devel
-   ```
+```
+sudo apt-get update
+sudo apt-get install qt6-base-devel qt6-websockets-devel
+```
 
 4. Creating a build folder build:
-   ```mkdir build
-   cd build
-   ```
+```
+mkdir build
+cd build
+```
 
 5. **export PATH=$PATH:/usr/share/qt6/bin** is needed in case the system does not find qmake after installing the packages.:
-   ```export PATH=$PATH:/usr/share/qt6/bin
-   qmake ../ListComparison.pro
-   make
-   ```
+```
+export PATH=$PATH:/usr/share/qt6/bin
+qmake ../ListComparison.pro
+make
+```
 
 6. Install the application:
-   ```make install
-   ```
+```
+make install
+```
 
 6. Updating the shared library cache:
-   ```sudo ldconfig
-   ```
+```
+sudo ldconfig
+```
 
 ## Usage
 Go to the build folder and run the application with the command:
-   ```cd build/app
-   ./app
-   ```
+```
+cd build/app
+./app
+```
 
 ## Examples of using the application
 - Get all available branches from https://packages.altlinux.org/
-   ```./app -s
-   ```
+```
+./app -s
+```
 
 - Get all data on the selected branch and output the number of binary packages separated by architecture
-   ```./app -g p10
-   ```
+```
+./app -g p10
+```
 
 - Get all the data for the selected two branches and output the difference, all the packets that are present in the first branch but missing in the second branch. The data is separated by architecture.
-   ```./app -d p10 -d sisyphus
-   ```
+```
+./app -d p10 -d sisyphus
+```
 
 - The same as in the previous paragraph, but output in JSON format and save the data to the file outputJson.txt
-   ```./app -j -d p10 -d sisyphus
-   ```
+```
+./app -j -d p10 -d sisyphus
+```
 
 
 ## License
